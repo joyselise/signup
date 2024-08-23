@@ -1228,35 +1228,49 @@
 
      <script>
           document.addEventListener('DOMContentLoaded', function () {
-               function checkEmailVerification() {
-                    var successMessage = document.getElementById('emailVerificationControl_success_message');
-                    if (successMessage && successMessage.getAttribute('aria-label') === 'E-mail address verified. You can now continue.') {
+               var successMessageDiv = document.getElementById("emailVerificationControl_success_message");
+               var elementsToUpdate = document.querySelectorAll(
+                    ".newPassword_li, .reenterPassword_li, .displayName_li, .surname_li"
+               );
 
-                         document.getElementById('emailVerificationControl_but_change_claims').style.display = 'none';
+               // Function to update the display of elements based on email verification status
+               function updateElementDisplay() {
+                    var isEmailVerified =
+                         successMessageDiv.style.display === "inline" &&
+                         successMessageDiv.getAttribute("aria-label") ===
+                         "E-mail address verified. You can now continue.";
 
-                         document.querySelector('.newPassword_li').style.display = 'block';
-                         document.querySelector('.reenterPassword_li').style.display = 'block';
-                         document.querySelector('.displayName_li').style.display = 'block';
-                         document.querySelector('.surname_li').style.display = 'block';
-                         document.getElementById('continue').style.display = 'block';
+                    elementsToUpdate.forEach(function (element) {
+                         element.style.display = isEmailVerified ? "block" : "none";
+                    });
+
+                    if (isEmailVerified) {
+                         document.getElementById("emailVerificationControl_but_change_claims").style.display = "none";
+                         document.getElementById("continue").style.display = "block";
+                    } else {
+                         document.getElementById("continue").style.display = "none";
                     }
                }
 
-               // MutationObserver to watch
+               // MutationObserver to watch for changes in the aria-label or style attributes
                var observer = new MutationObserver(function (mutations) {
                     mutations.forEach(function (mutation) {
-                         if (mutation.type === 'attributes' && mutation.attributeName === 'aria-label') {
-                              checkEmailVerification();
+                         if (
+                              mutation.attributeName === "style" ||
+                              mutation.attributeName === "aria-label"
+                         ) {
+                              updateElementDisplay();
                          }
                     });
                });
 
-               var targetNode = document.getElementById('emailVerificationControl_success_message');
-               if (targetNode) {
-                    observer.observe(targetNode, { attributes: true });
+               // Start observing the success message element
+               if (successMessageDiv) {
+                    observer.observe(successMessageDiv, { attributes: true, childList: true, subtree: true });
                }
 
-               checkEmailVerification();
+               // Run the check initially in case the message is already present
+               updateElementDisplay();
           });
      </script>
 </body>
