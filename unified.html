@@ -1227,51 +1227,46 @@
      </div>
 
      <script>
-          document.addEventListener('DOMContentLoaded', function () {
-               var successMessageDiv = document.getElementById("emailVerificationControl_success_message");
-               var elementsToUpdate = document.querySelectorAll(
-                    ".newPassword_li, .reenterPassword_li, .displayName_li, .surname_li"
-               );
+          var successMessageDiv = document.getElementById("emailVerificationControl_success_message");
+          var elementsToUpdate = document.querySelectorAll(
+               ".newPassword_li, .reenterPassword_li, .displayName_li, .surname_li"
+          );
 
-               // Function to update the display of elements based on email verification status
-               function updateElementDisplay() {
-                    var isEmailVerified =
-                         successMessageDiv.style.display === "inline" &&
-                         successMessageDiv.getAttribute("aria-label") ===
-                         "E-mail address verified. You can now continue.";
+          function updateElementDisplay() {
+               var isEmailVerified =
+                    successMessageDiv.style.display === "inline" &&
+                    successMessageDiv.getAttribute("aria-label") ===
+                    "E-mail address verified. You can now continue.";
 
-                    elementsToUpdate.forEach(function (element) {
-                         element.style.display = isEmailVerified ? "block" : "none";
-                    });
-
-                    if (isEmailVerified) {
-                         document.getElementById("emailVerificationControl_but_change_claims").style.display = "none";
-                         document.getElementById("continue").style.display = "block";
-                    } else {
-                         document.getElementById("continue").style.display = "none";
-                    }
-               }
-
-               // MutationObserver to watch for changes in the aria-label or style attributes
-               var observer = new MutationObserver(function (mutations) {
-                    mutations.forEach(function (mutation) {
-                         if (
-                              mutation.attributeName === "style" ||
-                              mutation.attributeName === "aria-label"
-                         ) {
-                              updateElementDisplay();
-                         }
-                    });
+               elementsToUpdate.forEach(function (element) {
+                    element.style.display = isEmailVerified ? "block" : "none";
                });
 
-               // Start observing the success message element
-               if (successMessageDiv) {
-                    observer.observe(successMessageDiv, { attributes: true, childList: true, subtree: true });
+               if (isEmailVerified) {
+                    document.getElementById("emailVerificationControl_but_change_claims").style.display = "none";
+                    document.getElementById("continue").style.display = "block";
+               } else {
+                    document.getElementById("continue").style.display = "none";
                }
+          }
 
-               // Run the check initially in case the message is already present
-               updateElementDisplay();
+          var observer = new MutationObserver(function (mutations) {
+               mutations.forEach(function (mutation) {
+                    if (
+                         mutation.attributeName === "style" ||
+                         mutation.attributeName === "aria-label"
+                    ) {
+                         updateElementDisplay();
+                    }
+               });
           });
+
+          if (successMessageDiv) {
+               observer.observe(successMessageDiv, { attributes: true, childList: true, subtree: true });
+          }
+
+          updateElementDisplay();
+
      </script>
 </body>
 
