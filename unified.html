@@ -1256,36 +1256,36 @@
           function updateUi(event) {
                currentStep = event.detail
                console.log({event: event.detail})
-               switch (event.detail) {
-                    case steps[0]:
-                         console.log('0')
-                         elementsToUpdate.forEach(function (element) {
-                              element.style.display = 'none';
-                         });
-                         continueBtn.style.display = "none";
-                         infoParagraph.textContent = infoText1;
-                         verificationInputObserver.observe(verificationInput, {attributes: true, attributeFilter: ['disabled']})
-                    case steps[1]:
-                         console.log('1')
-                         elementsToUpdate.forEach(function (element) {
-                              element.style.display = 'none';
-                         });
-                         continueBtn.style.display = "none";
-                         infoParagraph.textContent = infoText2;
-                    case steps[2]:
-                         console.log('2')
-                         elementsToUpdate.forEach(function (element) {
-                              element.style.display = 'block';
-                         });
-                         document.getElementById("emailVerificationControl_but_change_claims").style.display = "none";
-                         continueBtn.style.display = "block";
-                         infoParagraph.textContent = infoText3;
-                         verificationInputObserver.disconnect();
+               if (event.detail === steps[0]) {
+                    console.log('0')
+                    elementsToUpdate.forEach(function (element) {
+                         element.style.display = 'none';
+                    });
+                    continueBtn.style.display = "none";
+                    infoParagraph.textContent = infoText1;
+                    verificationInputObserver.observe(verificationInput, {attributes: true, attributeFilter: ['disabled']})
+               } else if (event.detail === steps[1]) {
+                    console.log('1')
+                    elementsToUpdate.forEach(function (element) {
+                         element.style.display = 'none';
+                    });
+                    continueBtn.style.display = "none";
+                    infoParagraph.textContent = infoText2;
+               } else if (event.detail === steps[2]) {
+                    console.log('2')
+                    elementsToUpdate.forEach(function (element) {
+                         element.style.display = 'block';
+                    });
+                    document.getElementById("emailVerificationControl_but_change_claims").style.display = "none";
+                    continueBtn.style.display = "block";
+                    infoParagraph.textContent = infoText3;
+                    verificationInputObserver.disconnect();
                }
           }
 
           // Waiting for the full page to load
           window.onload = (e) => {
+               console.log('working');
                successMessageDiv = document.getElementById("emailVerificationControl_success_message");
                verificationInput = document.getElementById('emailVerificationCode');
                elementsToUpdate = document.querySelectorAll(
