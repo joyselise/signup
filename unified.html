@@ -1248,7 +1248,7 @@
 
                if (isEmailVerified) {
                     newElement.dispatchEvent(e3);
-               } else {
+               } else if (verificationInput.disabled) {
                     newElement.dispatchEvent(e1);
                }
           });
