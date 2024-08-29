@@ -1224,6 +1224,14 @@
           const infoText2 = "A verification code has been sent to your email address. Please enter this code below and press verify to complete the verification process.";
           const infoText3 = "Thank you, your email address has now been verified. You can now enter the password and enter your name to create your profile.";
 
+          let successMessageDiv = document.getElementById("emailVerificationControl_success_message");
+          let verificationInput = document.getElementById('emailVerificationCode');
+          let elementsToUpdate = document.querySelectorAll(
+               ".newPassword_li, .reenterPassword_li, .displayName_li, .surname_li"
+          );
+          let continueBtn = document.getElementById("continue");
+          let infoParagraph = document.getElementById('info_text');
+
           let verificationInputObserver = new MutationObserver((mutations) => {
                console.log({mutations, dis: verificationInput.disabled})
                if (!verificationInput.disabled) {
@@ -1278,14 +1286,13 @@
 
           // Waiting for the full page to load
           window.onload = (e) => {
-               // Intentionally using var for exploiting hoisting
-               var successMessageDiv = document.getElementById("emailVerificationControl_success_message");
-               var verificationInput = document.getElementById('emailVerificationCode');
-               var elementsToUpdate = document.querySelectorAll(
+               successMessageDiv = document.getElementById("emailVerificationControl_success_message");
+               verificationInput = document.getElementById('emailVerificationCode');
+               elementsToUpdate = document.querySelectorAll(
                     ".newPassword_li, .reenterPassword_li, .displayName_li, .surname_li"
                );
-               var continueBtn = document.getElementById("continue");
-               var infoParagraph = document.getElementById('info_text');
+               continueBtn = document.getElementById("continue");
+               infoParagraph = document.getElementById('info_text');
 
                console.log({successMessageDiv, continueBtn, infoParagraph, verificationInput, elementsToUpdate});
 
