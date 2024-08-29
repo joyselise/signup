@@ -1155,7 +1155,7 @@
                display: block !important;
            }
            
-          #email_label::after, #surname_label::after, #displayName_label::after, #newPassword_label::after, #reenterPassword_label::after
+          #email_label::after, #surname_label::after, #displayName_label::after, #newPassword_label::after, #reenterPassword_label::after,
           #emailVerificationCode_label::after {
                content: "*";
                color: rgb(245, 50, 64);
@@ -1283,25 +1283,13 @@
                }
           }
 
-          // Waiting for the full page to load
-          window.addEventListener('load', (e) => {
-               console.log('working');
-               successMessageDiv = document.getElementById("emailVerificationControl_success_message");
-               verificationInput = document.getElementById('emailVerificationCode');
-               elementsToUpdate = document.querySelectorAll(
-                    ".newPassword_li, .reenterPassword_li, .displayName_li, .surname_li"
-               );
-               continueBtn = document.getElementById("continue");
-               infoParagraph = document.getElementById('info_text');
-
-               console.log({successMessageDiv, continueBtn, infoParagraph, verificationInput, elementsToUpdate});
-
-               // dispatching event 1 for the changes
-               newElement.dispatchEvent(e1);
-               observer.observe(successMessageDiv, { attributes: true, attributeFilter: ['style', 'aria-label'] });
-          })
+          // dispatching event 1 for the changes
+          newElement.dispatchEvent(e1);
+          observer.observe(successMessageDiv, { attributes: true, attributeFilter: ['style', 'aria-label'] });
      </script>
+     <style>
 
+     </style>
 </body>
 
 </html>
