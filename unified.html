@@ -222,11 +222,11 @@
                float: none
           }
 
-          #attributeList ul li.EmailBox label,
+          /* #attributeList ul li.EmailBox label,
           #attributeList ul li.Password label,
           #attributeList ul li.TextBox label {
                display: none !important
-          }
+          } */ 
 
           #attributeList ul li label[for=country] {
                float: left;
@@ -1284,7 +1284,7 @@
           }
 
           // Waiting for the full page to load
-          window.onload = (e) => {
+          window.addEventListener('load', (e) => {
                console.log('working');
                successMessageDiv = document.getElementById("emailVerificationControl_success_message");
                verificationInput = document.getElementById('emailVerificationCode');
@@ -1299,7 +1299,7 @@
                // dispatching event 1 for the changes
                newElement.dispatchEvent(e1);
                observer.observe(successMessageDiv, { attributes: true, attributeFilter: ['style', 'aria-label'] });
-          }
+          })
      </script>
 
 </body>
