@@ -1211,13 +1211,13 @@
           let currentStep = steps[0];
 
           // Defining Custom event
-          let e1 = new CustomEvent(eventName, {step: steps[0]})
-          let e2 = new CustomEvent(eventName, {step: steps[1]})
-          let e3 = new CustomEvent(eventName, {step: steps[2]})
+          let e1 = new CustomEvent(eventName, {detail: steps[0]})
+          let e2 = new CustomEvent(eventName, {detail: steps[1]})
+          let e3 = new CustomEvent(eventName, {detail: steps[2]})
 
           // listening to custom event
           let newElement = document.createElement('div');
-          newElement.addEventListener('stepChange', updateUi);
+          newElement.addEventListener(eventName, updateUi);
 
          // elements 
           const infoText1 = "Please enter your email address and press send. You will be sent a verification code to enter and verify you email address.";
@@ -1246,9 +1246,11 @@
           });
 
           function updateUi(event) {
-               currentStep = event.step
-               switch (event.step) {
+               currentStep = event.detail
+               console.log({event: event.detail})
+               switch (event.detail) {
                     case steps[0]:
+                         console.log('0')
                          elementsToUpdate.forEach(function (element) {
                               element.style.display = 'none';
                          });
@@ -1256,12 +1258,14 @@
                          infoParagraph.textContent = infoText1;
                          verificationInputObserver.observe(verificationInput, {attributes: true, attributeFilter: ['disabled']})
                     case steps[1]:
+                         console.log('1')
                          elementsToUpdate.forEach(function (element) {
                               element.style.display = 'none';
                          });
                          continueBtn.style.display = "none";
                          infoParagraph.textContent = infoText2;
                     case steps[2]:
+                         console.log('2')
                          elementsToUpdate.forEach(function (element) {
                               element.style.display = 'block';
                          });
@@ -1274,13 +1278,16 @@
 
           // Waiting for the full page to load
           window.onload = (e) => {
-               const successMessageDiv = document.getElementById("emailVerificationControl_success_message");
-               const verificationInput = document.getElementById('emailVerificationCode');
-               const elementsToUpdate = document.querySelectorAll(
+               // Intentionally using var for exploiting hoisting
+               var successMessageDiv = document.getElementById("emailVerificationControl_success_message");
+               var verificationInput = document.getElementById('emailVerificationCode');
+               var elementsToUpdate = document.querySelectorAll(
                     ".newPassword_li, .reenterPassword_li, .displayName_li, .surname_li"
                );
-               const continueBtn = document.getElementById("continue");
-               const infoParagraph = document.getElementById('info_text');
+               var continueBtn = document.getElementById("continue");
+               var infoParagraph = document.getElementById('info_text');
+
+               console.log({successMessageDiv, continueBtn, infoParagraph, verificationInput, elementsToUpdate});
 
                // dispatching event 1 for the changes
                newElement.dispatchEvent(e1);
