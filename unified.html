@@ -1141,7 +1141,7 @@
                letter-spacing: 0.8px;
            }
 
-           .buttons button {
+           .buttons button:hover, .buttons button:active, .buttons button:focus {
                color: #fff !important;
                background: #11121b !important;
            }
@@ -1207,8 +1207,8 @@
      <script>
           // Three Steps
           const steps = ['Email', 'Verify', 'Details'];
-          const currentStep = steps[0];
           const eventName = 'stepChange'
+          let currentStep = steps[0];
 
           // Defining Custom event
           let e1 = new CustomEvent(eventName, {step: steps[0]})
