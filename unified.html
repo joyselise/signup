@@ -1194,8 +1194,6 @@
                               <img class="companyLogo" data-tenant-branding-logo="true"
                                    src="https://aadcdn.msftauthimages.net/c1c6b6c8-reimq9hwi7zc3oxpqsqquipc4dvmqgk3oqbkoy3ab2a/logintenantbranding/0/bannerlogo?ts=638477384784888664"
                                    alt="Company Logo">
-                              <h2 class="brand_title" id="page_title">Registration Details</h2>
-                              <p id="info_text"></p>
                               <div id="api" role="main">
                               </div>
                          </div>
@@ -1203,92 +1201,6 @@
                </div>
           </div>
      </div>
-
-     <script>
-          // Three Steps
-          const steps = ['Email', 'Verify', 'Details'];
-          const eventName = 'stepChange'
-          let currentStep = steps[0];
-
-          // Defining Custom event
-          let e1 = new CustomEvent(eventName, {detail: steps[0]})
-          let e2 = new CustomEvent(eventName, {detail: steps[1]})
-          let e3 = new CustomEvent(eventName, {detail: steps[2]})
-
-          // listening to custom event
-          let newElement = document.createElement('div');
-          newElement.addEventListener(eventName, updateUi);
-
-         // elements 
-          const infoText1 = "Please enter your email address and press send. You will be sent a verification code to enter and verify you email address.";
-          const infoText2 = "A verification code has been sent to your email address. Please enter this code below and press verify to complete the verification process.";
-          const infoText3 = "Thank you, your email address has now been verified. You can now enter the password and enter your name to create your profile.";
-
-          let successMessageDiv = document.getElementById("emailVerificationControl_success_message");
-          let verificationInput = document.getElementById('emailVerificationCode');
-          let elementsToUpdate = document.querySelectorAll(
-               ".newPassword_li, .reenterPassword_li, .displayName_li, .surname_li"
-          );
-          let continueBtn = document.getElementById("continue");
-          let infoParagraph = document.getElementById('info_text');
-
-          let verificationInputObserver = new MutationObserver((mutations) => {
-               console.log({mutations, dis: verificationInput.disabled})
-               if (!verificationInput.disabled) {
-                    newElement.dispatchEvent(e2);
-               }
-          });
-
-          let observer = new MutationObserver(function (mutations) {
-               console.log({mutations, length: mutations.length})
-               var isEmailVerified =
-                    successMessageDiv.style.display === "inline" &&
-                    successMessageDiv.getAttribute("aria-label") ===
-                    "E-mail address verified. You can now continue.";
-
-               if (isEmailVerified) {
-                    newElement.dispatchEvent(e3);
-               } else if (verificationInput.disabled) {
-                    newElement.dispatchEvent(e1);
-               }
-          });
-
-          function updateUi(event) {
-               currentStep = event.detail
-               console.log({event: event.detail})
-               if (event.detail === steps[0]) {
-                    console.log('0')
-                    elementsToUpdate.forEach(function (element) {
-                         element.style.display = 'none';
-                    });
-                    continueBtn.style.display = "none";
-                    infoParagraph.textContent = infoText1;
-                    verificationInputObserver.observe(verificationInput, {attributes: true, attributeFilter: ['disabled']})
-               } else if (event.detail === steps[1]) {
-                    console.log('1')
-                    elementsToUpdate.forEach(function (element) {
-                         element.style.display = 'none';
-                    });
-                    continueBtn.style.display = "none";
-                    infoParagraph.textContent = infoText2;
-               } else if (event.detail === steps[2]) {
-                    console.log('2')
-                    elementsToUpdate.forEach(function (element) {
-                         element.style.display = 'block';
-                    });
-                    continueBtn.style.display = "block";
-                    infoParagraph.textContent = infoText3;
-                    verificationInputObserver.disconnect();
-               }
-          }
-
-          // dispatching event 1 for the changes
-          newElement.dispatchEvent(e1);
-          observer.observe(successMessageDiv, { attributes: true, attributeFilter: ['style', 'aria-label'] });
-     </script>
-     <style>
-
-     </style>
 </body>
 
 </html>
