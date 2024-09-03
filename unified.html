@@ -24,9 +24,9 @@
                font-weight: bold;
           }
 
-          .buttons #cancel:before {
+          /* .buttons #cancel:before {
                content: url(https://login.microsoftonline.com/templates/src/images/left-arrow.svg);
-          }
+          } */
      </style>
      <!-- don't modify -->
      <style id="idpselector">
@@ -1020,6 +1020,9 @@
      </style>
      <!-- add additional styles -->
      <style>
+          .heading { 
+               display: none;
+          }
           .newPassword_li {
                display: none
           }
@@ -1146,10 +1149,31 @@
                background: #11121b !important;
            }
            
-           button#cancel {
-               display: none;
+           .panel-body {
+               margin-top: 30px;
+           }
+           
+          button#cancel {
+               display: flex;
+               place-items: center;
+               gap: 5px;
+               left: 0px !important;
+               right: 15px !important;
+               background: #fff !important;
+               color: #777 !important; 
+               border: 1px solid #777 !important;
+               padding: 5px 15px !important;
+          }
+
+          button#cancel:focus, button#cancel:hover {
+               background: #fff !important;
+               color: #f96522 !important;
+               border: 1px solid #f96522 !important;
            }
 
+          button#cancel svg {
+               width: 16px;
+          }
 
            #email_label, #surname_label, #displayName_label, #newPassword_label, #reenterPassword_label, #emailVerificationCode_label { 
                display: block !important;
@@ -1168,23 +1192,27 @@
                margin-block: 10px;
            }
            
-           p#info_text {margin-top: 20px;}
-
            #emailVerificationControl > ul > li.TextBox.emailVerificationCode_li.VerificationCode > div {
                margin-top: 10px !important;
            }
            #attributeList ul li .attrEntry .itemLevel {
                display: none !important;
            }
+
+           #background_branding_container {
+               background: #f3eae5;
+           }
+
+           a#createAccount, a#forgotPassword {
+               color: #f96521;
+               font-weight: 500 !important; 
+         }
      </style>
 
 </head>
 
 <body>
      <div id="background_branding_container" data-tenant-branding-background-color="true">
-          <img data-tenant-branding-background="true"
-               src="https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTExL3Jhd3BpeGVsb2ZmaWNlMjFfYV9waWVjZV9vZl9lbWJyb2lkZXJ5X2lzX3Nob3duX3dpdGhfZ2FsYXh5X21pbl9lYTJiZDE1NS1jOGEyLTQ3MzgtOWZlOC0wYTNjZTNkZWQ2NTdfMS5qcGc.jpg"
-               alt="Illustration" />
      </div>
      <div class="container  unified_container " role="presentation">
           <div class="row">
@@ -1192,8 +1220,9 @@
                     <div class="panel panel-default">
                          <div class="panel-body">
                               <img class="companyLogo" data-tenant-branding-logo="true"
-                                   src="https://aadcdn.msftauthimages.net/c1c6b6c8-reimq9hwi7zc3oxpqsqquipc4dvmqgk3oqbkoy3ab2a/logintenantbranding/0/bannerlogo?ts=638477384784888664"
+                                   src="https://www.nightingaledelivery.co.uk/assets/main/images/NightingaleRGB.svg"
                                    alt="Company Logo">
+                              <h2 class="brand_title" id="page_title">Sign In</h2>
                               <div id="api" role="main">
                               </div>
                          </div>
@@ -1203,4 +1232,14 @@
      </div>
 </body>
 
+     <script>
+          const cancelBtn = document.getElementById('continue');
+
+          cancelBtn.innerHTML = `
+               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="24" height="24">
+                    <path fill="currentColor" d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c-9.4 9.4-9.4 24.6 0 33.9l47 47-47 47c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l47-47 47 47c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-47-47 47-47c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-47 47-47-47c-9.4-9.4-24.6-9.4-33.9 0z"/>
+               </svg>
+               <span>Cancel</span>
+          `;
+     </script>
 </html>
