@@ -1162,18 +1162,18 @@
                right: 15px !important;
                background: #fff !important;
                color: #777 !important; 
-               border: 1px solid #777 !important;
+               border: 0px !important;
                padding: 5px 15px !important;
           }
 
           button#cancel:focus, button#cancel:hover {
                background: #fff !important;
                color: #f96522 !important;
-               border: 1px solid #f96522 !important;
+               border: none;
            }
 
           button#cancel svg {
-               width: 16px;
+               width: 20px;
           }
 
            #email_label, #surname_label, #displayName_label, #newPassword_label, #reenterPassword_label, #emailVerificationCode_label { 
@@ -1237,10 +1237,7 @@
      <script>
           const cancelBtn = document.getElementById('cancel');
 
-          cancelBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="24" height="24">
-                    <path fill="currentColor" d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c-9.4 9.4-9.4 24.6 0 33.9l47 47-47 47c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l47-47 47 47c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-47-47 47-47c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-47 47-47-47c-9.4-9.4-24.6-9.4-33.9 0z"/>
-               </svg>
-               <span>Cancel</span>`;
+          cancelBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="24" height="24"><path fill="currentColor" d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c-9.4 9.4-9.4 24.6 0 33.9l47 47-47 47c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l47-47 47 47c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-47-47 47-47c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-47 47-47-47c-9.4-9.4-24.6-9.4-33.9 0z"/></svg>`;
      </script>
 
      <script>
@@ -1293,6 +1290,8 @@
           });
 
           function updateUi(event) {
+               const errorRequiredFields = document.getElementById('requiredFieldMissing');
+               errorRequiredFields.style.display = 'none';
                currentStep = event.detail
                console.log({event: event.detail})
                if (event.detail === steps[0]) {
@@ -1311,7 +1310,7 @@
                     continueBtn.style.display = "none";
                     infoParagraph.textContent = infoText2;
                } else if (event.detail === steps[2]) {
-                    console.log('2')
+                    document.getElementById('newPassword').focus();
                     elementsToUpdate.forEach(function (element) {
                          element.style.display = 'block';
                     });
@@ -1325,9 +1324,81 @@
           newElement.dispatchEvent(e1);
           observer.observe(successMessageDiv, { attributes: true, attributeFilter: ['style', 'aria-label'] });
      </script>
-     <style>
 
-     </style>
+     <script>
+          function hideError(inputSelector) {
+               const input = document.querySelector(inputSelector);
+               if (!input) {
+                    console.error(`Input not found: ${inputSelector}`);
+                    return;
+               }
+               const errorElement = input.parentNode.querySelector('.error.pageLevel');
+               if (errorElement) {
+                    errorElement.style.display = 'none'; 
+               }
+          }
+
+          function showError(inputSelector, errorMessage) {
+               const input = document.querySelector(inputSelector);
+               if (!input) {
+                    console.error(`Input not found: ${inputSelector}`);
+                    return;
+               }
+                
+                  // Check if error message element already exists
+                  let errorElement = input.nextElementSibling;
+                  if (!errorElement || !errorElement.classList.contains('error')) {
+                    // Create new error element if it doesn't exist
+                    errorElement = document.createElement('div');
+                    errorElement.className = 'error pageLevel';
+                    errorElement.style.display = 'none';
+                    errorElement.style.textAlign = 'left';
+                    input.parentNode.insertBefore(errorElement, input.nextSibling);
+                  }
+                
+                  // Set error message and show it
+                  if (errorMessage) {
+                    errorElement.textContent = errorMessage;
+                    errorElement.style.display = 'block';
+                  } else {
+                    errorElement.style.display = 'none';
+                  }
+                
+                  return errorElement;
+          }
+
+          function validateEmail(email) {
+               const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+               return re.test(email);
+          }
+
+          const emailInput = document.getElementById('email');
+          const codeInput = document.getElementById('emailVerificationCode');   
+          const sendVerificationCodeBtn = document.getElementById('emailVerificationControl_but_send_code')
+          const verifyBtn = document.getElementById('emailVerificationControl_but_verify_code')
+
+          emailInput.setAttribute('placeholder', 'abc@xyz.com')
+          codeInput.setAttribute('placeholder', 'a six digit code')
+          
+          emailInput.addEventListener('keydown', function(event) {
+               hideError('#email');
+               if (event.key === 'Enter') {
+                    event.preventDefault(); // Prevent form submission
+                    if (!validateEmail(emailInput.value)) {
+                         showError('#email', 'Invalid Email');
+                         return 
+                    }
+                    sendVerificationCodeBtn.click(); // Simulate button click
+               }
+          });
+
+          codeInput.addEventListener('keydown', function(event) {
+               if (event.key === 'Enter') {
+                 event.preventDefault(); // Prevent form submission
+                 verifyBtn.click(); // Simulate button click
+               }
+          });
+     </script>
 </body>
 
 </html>
