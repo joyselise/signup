@@ -1150,16 +1150,12 @@
                background: #11121b !important;
            }
 
-           .panel-body {
-               margin-top: 30px !important; 
-           }
-           
           button#cancel {
                display: flex;
                place-items: center;
                gap: 5px;
                left: unset !important;
-               right: 15px !important;
+               right: 0px !important;
                background: #fff !important;
                color: #777 !important; 
                border: 0px !important;
@@ -1373,12 +1369,12 @@
           }
 
           const emailInput = document.getElementById('email');
-          const codeInput = document.getElementById('emailVerificationCode');   
+          const codeInput = document.getElementById('emailVerificationCode');
           const sendVerificationCodeBtn = document.getElementById('emailVerificationControl_but_send_code')
           const verifyBtn = document.getElementById('emailVerificationControl_but_verify_code')
 
           emailInput.setAttribute('placeholder', 'abc@xyz.com')
-          codeInput.setAttribute('placeholder', 'a six digit code')
+          codeInput.setAttribute('placeholder', 'a six numeric digit code')
           
           emailInput.addEventListener('keydown', function(event) {
                hideError('#email');
